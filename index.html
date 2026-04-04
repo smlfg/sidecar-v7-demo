@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidecar V7 &mdash; Wie es dir hilft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Fragment+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-body: 'Bricolage Grotesque', system-ui, sans-serif;
+    --font-mono: 'Fragment Mono', 'SF Mono', Consolas, monospace;
+
+    /* Catppuccin Mocha — Dark First */
+    --base: #1e1e2e;
+    --mantle: #181825;
+    --crust: #11111b;
+    --surface0: #313244;
+    --surface1: #45475a;
+    --surface2: #585b70;
+    --overlay0: #6c7086;
+    --overlay1: #7f849c;
+    --text: #cdd6f4;
+    --text-dim: #a6adc8;
+    --subtext0: #a6adc8;
+    --subtext1: #bac2de;
+
+    --rosewater: #f5e0dc;
+    --flamingo: #f2cdcd;
+    --pink: #f5c2e7;
+    --mauve: #cba6f7;
+    --red: #f38ba8;
+    --maroon: #eba0ac;
+    --peach: #fab387;
+    --yellow: #f9e2af;
+    --green: #a6e3a1;
+    --teal: #94e2d5;
+    --sky: #89dceb;
+    --sapphire: #74c7ec;
+    --blue: #89b4fa;
+    --lavender: #b4befe;
+
+    --bg: var(--base);
+    --card: var(--surface0);
+    --card-hover: var(--surface1);
+    --border: var(--surface1);
+    --accent: var(--mauve);
+    --accent-dim: rgba(203, 166, 247, 0.12);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --base: #eff1f5;
+      --mantle: #e6e9ef;
+      --crust: #dce0e8;
+      --surface0: #ccd0da;
+      --surface1: #bcc0cc;
+      --surface2: #acb0be;
+      --overlay0: #9ca0b0;
+      --overlay1: #8c8fa1;
+      --text: #4c4f69;
+      --text-dim: #6c6f85;
+      --subtext0: #6c6f85;
+      --subtext1: #5c5f77;
+
+      --rosewater: #dc8a78;
+      --flamingo: #dd7878;
+      --pink: #ea76cb;
+      --mauve: #8839ef;
+      --red: #d20f39;
+      --maroon: #e64553;
+      --peach: #fe640b;
+      --yellow: #df8e1d;
+      --green: #40a02b;
+      --teal: #179299;
+      --sky: #04a5e5;
+      --sapphire: #209fb5;
+      --blue: #1e66f5;
+      --lavender: #7287fd;
+
+      --bg: var(--base);
+      --card: var(--mantle);
+      --card-hover: var(--crust);
+      --border: var(--surface1);
+      --accent: var(--mauve);
+      --accent-dim: rgba(136, 57, 239, 0.08);
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .anim {
+    animation: fadeUp 0.45s ease-out both;
+    animation-delay: calc(var(--i, 0) * 0.04s);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 28px 80px;
+  }
+
+  /* ===== HEADER ===== */
+  .hero { text-align: center; margin-bottom: 64px; }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--mauve), var(--blue), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .hero .subtitle {
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .hero .badge-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 4px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text-dim);
+  }
+
+  /* ===== SECTION ===== */
+  section { margin-bottom: 72px; }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    color: var(--text-dim);
+    max-width: 680px;
+    margin-bottom: 28px;
+  }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    background: var(--card-hover);
+  }
+  .card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .card p, .card li {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+  }
+
+  /* ===== 3-COLUMN INTRO ===== */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .intro-grid .card { position: relative; padding-left: 28px; }
+  .intro-grid .card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 24px;
+    bottom: 24px;
+    width: 3px;
+    border-radius: 2px;
+  }
+  .intro-grid .card:nth-child(1)::before { background: var(--green); }
+  .intro-grid .card:nth-child(2)::before { background: var(--blue); }
+  .intro-grid .card:nth-child(3)::before { background: var(--yellow); }
+  .speed { font-family: var(--font-mono); font-size: 0.8rem; color: var(--green); }
+
+  /* ===== FLOW DIAGRAM ===== */
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 36px 0;
+    flex-wrap: wrap;
+  }
+  .flow-node {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 22px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    min-width: 120px;
+    position: relative;
+  }
+  .flow-node.samuel { border-color: var(--green); color: var(--green); }
+  .flow-node.sidecar {
+    border-color: var(--mauve);
+    color: var(--mauve);
+    background: var(--accent-dim);
+  }
+  .flow-arrow {
+    font-size: 1.4rem;
+    color: var(--overlay0);
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+  .flow-outputs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+  @media (max-width: 800px) {
+    .flow-outputs { grid-template-columns: repeat(2, 1fr); }
+  }
+  .flow-out {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--card);
+    transition: all 0.2s;
+    color: var(--text-dim);
+  }
+  .flow-out:hover, .flow-out.active {
+    border-color: var(--accent);
+    color: var(--text);
+    background: var(--accent-dim);
+  }
+  .flow-out .num {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 2px;
+  }
+
+  /* ===== TABS ===== */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .tab-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-top: 16px;
+  }
+  .tab-panel h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .tab-panel h3 .icon { margin-right: 8px; }
+  .tab-panel ul { list-style: none; padding: 0; }
+  .tab-panel li {
+    padding: 6px 0;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .tab-panel li:last-child { border: none; }
+  .tab-panel li strong { color: var(--text); }
+  .tab-panel .meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--overlay1);
+    margin-top: 14px;
+  }
+  .tab-panel .highlight {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+  .hl-green { background: rgba(166,227,161,0.12); color: var(--green); }
+  .hl-blue { background: rgba(137,180,250,0.12); color: var(--blue); }
+  .hl-red { background: rgba(243,139,168,0.12); color: var(--red); }
+  .hl-yellow { background: rgba(249,226,175,0.12); color: var(--yellow); }
+  .hl-mauve { background: rgba(203,166,247,0.12); color: var(--mauve); }
+  .hl-peach { background: rgba(250,179,135,0.12); color: var(--peach); }
+  .hl-teal { background: rgba(148,226,213,0.12); color: var(--teal); }
+
+  /* ===== MECHANISM GRID ===== */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .filter-btn {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--text);
+    background: var(--accent-dim);
+  }
+  .mech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+  .mech-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .mech-chip:hover {
+    border-color: var(--accent);
+    background: var(--card-hover);
+  }
+  .mech-chip .mech-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .mech-chip .mech-id {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--overlay1);
+    min-width: 24px;
+  }
+  .mech-chip .mech-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+  .mech-chip .mech-desc {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .mech-chip .mech-meta {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--overlay0);
+  }
+  .mech-chip .cat-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  .cat-focus { background: var(--blue); }
+  .cat-learning { background: var(--green); }
+  .cat-project { background: var(--peach); }
+  .cat-dopamine { background: var(--yellow); }
+  .cat-awareness { background: var(--flamingo); }
+  .cat-quality { background: var(--red); }
+  .cat-adhs { background: var(--mauve); }
+
+  .mech-count {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+
+  /* ===== PROFILE GRID ===== */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .profile-grid .card ul { list-style: none; padding: 0; }
+  .profile-grid .card li {
+    padding: 4px 0;
+    font-size: 0.88rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .profile-grid .card li:last-child { border: none; }
+  .skill-level {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 1px 8px;
+    border-radius: 4px;
+  }
+  .sl-kann-bauen { background: rgba(166,227,161,0.15); color: var(--green); }
+  .sl-kann-nutzen { background: rgba(137,180,250,0.15); color: var(--blue); }
+  .sl-basics { background: rgba(249,226,175,0.15); color: var(--yellow); }
+  .sl-keine { background: rgba(108,112,134,0.15); color: var(--overlay0); }
+  .sl-angst { background: rgba(243,139,168,0.2); color: var(--red); }
+
+  .fear-card {
+    background: rgba(243,139,168,0.06);
+    border-color: rgba(243,139,168,0.2);
+  }
+  .fear-card h4 {
+    color: var(--red);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  /* ===== TUNING ===== */
+  .tuning-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .tuning-grid .card h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  /* ===== CLI ===== */
+  .cli-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .cli-cmd {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+  .cli-cmd code {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--green);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .cli-cmd span {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+  }
+
+  /* ===== COLLAPSIBLE ===== */
+  details {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  details summary {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.92rem;
+    user-select: none;
+  }
+  details summary:hover { color: var(--accent); }
+  details[open] summary { border-bottom: 1px solid var(--border); }
+  details .inner { padding: 14px 16px; font-size: 0.88rem; color: var(--text-dim); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    color: var(--overlay0);
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    padding: 32px 0 24px;
+    border-top: 1px solid var(--border);
+    margin-top: 48px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<!-- ============================================================ -->
+<!-- HERO -->
+<!-- ============================================================ -->
+<header class="hero anim" style="--i:0">
+  <h1>Wie Sidecar dir hilft</h1>
+  <p class="subtitle">Dein unsichtbarer Co-Pilot: ein QA-Daemon der bei jedem Claude-Prompt mitlaeuft, Muster erkennt, coacht und schuetzt.</p>
+  <div class="badge-row">
+    <span class="badge">V7 &middot; ~11K LOC</span>
+    <span class="badge">48 Mechanismen</span>
+    <span class="badge">Florian TTS+STT</span>
+    <span class="badge">MiniMax Deep Analysis</span>
+    <span class="badge">Socket: /tmp/sidecar-v7.sock</span>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- SEKTION 1: Dein unsichtbarer Co-Pilot -->
+<!-- ============================================================ -->
+<section class="anim" style="--i:2">
+  <div class="section-label">Sektion 1</div>
+  <h2 class="section-title">Dein unsichtbarer Co-Pilot</h2>
+  <p class="section-desc">Sidecar laeuft als Daemon im Hintergrund. Bei jedem Prompt, bei jedem Tool-Call schaut es mit — ohne dass du etwas tun musst.</p>
+
+  <div class="intro-grid">
+    <div class="card">
+      <h3>Was es ist</h3>
+      <p>Ein Python-Daemon der ueber einen Unix Socket mit Claude Code kommuniziert. Hooks in <code style="font-family:var(--font-mono);color:var(--accent)">~/.claude/hooks/</code> senden Events, Sidecar antwortet mit Context-Injection, Coaching-Nudges oder Safety-Blocks.</p>
+    </div>
+    <div class="card">
+      <h3>Zwei Geschwindigkeiten</h3>
+      <p><span class="speed">&lt;5ms</span> <strong>Fast Path</strong> &mdash; deterministische Regeln, Cooldowns, Pattern-Matching. Kostet $0.</p>
+      <p style="margin-top:8px"><span class="speed" style="color:var(--peach)">~2-5s</span> <strong>Slow Path</strong> &mdash; MiniMax M2.5 Deep Analysis mit Function Calling. ~$0.0003/Call.</p>
+    </div>
+    <div class="card">
+      <h3>Fail-Open Design</h3>
+      <p>Wenn Sidecar abstuerzt oder der Socket nicht erreichbar ist, laeuft Claude ganz normal weiter. Die Bridge hat ein 3-Sekunden-Timeout und liefert statischen Fallback-Kontext.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SEKTION 2: 5 Wege wie Sidecar eingreift -->
+<!-- ============================================================ -->
+<section class="anim" style="--i:4">
+  <div class="section-label">Sektion 2</div>
+  <h2 class="section-title">5 Wege wie Sidecar eingreift</h2>
+  <p class="section-desc">Von fluestern bis blockieren &mdash; Sidecar hat 5 Interventionspfade, jeder mit eigener Intensitaet.</p>
+
+  <!-- Flow Diagram -->
+  <div class="flow anim" style="--i:5">
+    <div class="flow-node samuel">Samuel</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-node">Prompt</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-node sidecar">Sidecar V7</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-node">Claude Code</div>
+  </div>
+
+  <div class="flow-outputs anim" style="--i:6">
+    <div class="flow-out active" onclick="showTab(0)" id="ftab-0"><span class="num">1</span>Context Injection</div>
+    <div class="flow-out" onclick="showTab(1)" id="ftab-1"><span class="num">2</span>Coaching Nudges</div>
+    <div class="flow-out" onclick="showTab(2)" id="ftab-2"><span class="num">3</span>Florian spricht</div>
+    <div class="flow-out" onclick="showTab(3)" id="ftab-3"><span class="num">4</span>Safety Gates</div>
+    <div class="flow-out" onclick="showTab(4)" id="ftab-4"><span class="num">5</span>Deep Analysis</div>
+  </div>
+
+  <!-- Tab 1: Context Injection -->
+  <div class="tab-content active" id="tab-0">
+    <div class="tab-panel">
+      <h3><span class="icon">&#128172;</span> Context Injection &mdash; Sidecar fluestert Claude Kontext zu</h3>
+      <p style="color:var(--text-dim);margin-bottom:14px">Bei <strong>jedem einzelnen Prompt</strong> injiziert Sidecar zusaetzlichen Kontext in das <code style="font-family:var(--font-mono);color:var(--accent)">additionalContext</code>-Feld. Claude sieht ihn, du nicht.</p>
+      <ul>
+        <li><strong>Phase-Erkennung</strong> &mdash; Wo bist du gerade? <span class="highlight hl-blue">exploration</span> <span class="highlight hl-green">implementation</span> <span class="highlight hl-yellow">testing</span> <span class="highlight hl-red">debugging</span></li>
+        <li><strong>Workflow-Phase</strong> &mdash; Abgeleitet aus der Activity-Phase: <span class="highlight hl-teal">planning &rarr; build &rarr; test &rarr; deploy</span></li>
+        <li><strong>Contract-Tracking</strong> &mdash; Pflichten pro Phase (must/should). Score 0-100%. Warnung wenn Obligations nicht erfuellt.</li>
+        <li><strong>Anti-Pattern-Warnungen</strong> &mdash; Erkennt Hypothesen-lose Delegation, Silent Long-Running, Vibe-Coding ohne Verstaendnis.</li>
+        <li><strong>Skill-Empfehlungen</strong> &mdash; 14 Skills, phasenbasiert. In Exploration: <code style="font-family:var(--font-mono)">/research</code>, in Testing: <code style="font-family:var(--font-mono)">/test</code>.</li>
+        <li><strong>ADHS-Patterns</strong> &mdash; Hyperfocus-Warnung, Session-Sprawl-Erkennung, Paralysis-Detection nach 20min.</li>
+        <li><strong>Personal Context</strong> &mdash; Energie-Level (Peak 13-17h), Stimmung (Keyword-Analyse), Tageszeit, Angst-Themen.</li>
+        <li><strong>Twin Memory</strong> &mdash; Relevante Beobachtungen aus der Memory-DB (Insights, Fear-Log, gelernte Konzepte).</li>
+      </ul>
+      <div class="meta">Hook: UserPromptSubmit &rarr; bridge.py &rarr; daemon.py &rarr; ContextBridge.enrich() &rarr; additionalContext</div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Coaching Nudges -->
+  <div class="tab-content" id="tab-1">
+    <div class="tab-panel">
+      <h3><span class="icon">&#127919;</span> Coaching-Nudges &mdash; 48 situative Impulse</h3>
+      <p style="color:var(--text-dim);margin-bottom:14px">48 Mechanismen in 8 Kategorien. Nur <strong>eine Nudge pro Prompt</strong> (first-match nach Prioritaet).</p>
+      <ul>
+        <li><strong>Prioritaets-System</strong> &mdash; <span class="highlight hl-mauve">ADHS (Tier 0)</span> &gt; <span class="highlight hl-blue">Fokus/Qualitaet (1)</span> &gt; <span class="highlight hl-peach">Projekt (2)</span> &gt; <span class="highlight hl-green">Lernen (3)</span> &gt; <span class="highlight hl-yellow">Dopamin/Awareness (4)</span></li>
+        <li><strong>Cooldown-System</strong> &mdash; Jeder Mechanismus hat einen eigenen Cooldown (60s bis 3600s). Verhindert Spam.</li>
+        <li><strong>EWMA-Ratings</strong> &mdash; Gewichtete Bewertung (alpha=0.3). Top-Performer feuern oefter, Underperformer seltener.</li>
+        <li><strong>MechanismResult</strong> &mdash; Jede Nudge kann: Text anzeigen, Claude's Prompt anreichern (<code style="font-family:var(--font-mono)">enrich_prompt</code>), und Twin-Queries ausloesen.</li>
+        <li><strong>Du-Perspektive</strong> &mdash; 47/48 Mechanismen sprechen dich direkt an. Nur safety_gate (#29) blockiert sofort ohne Anrede.</li>
+        <li><strong>8 Kategorien</strong> &mdash; Fokus (7), Lernen (6), Projekt (5), Dopamin (5), Awareness (5), Qualitaet (4), ADHS (4+4), Workflow (6+1+1)</li>
+      </ul>
+      <div class="meta">Registry: mechanisms.py &rarr; coach.py wire_all() &rarr; fire_all() (priority-sorted)</div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Florian spricht -->
+  <div class="tab-content" id="tab-2">
+    <div class="tab-panel">
+      <h3><span class="icon">&#128483;</span> Florian spricht &mdash; Hoerbares Coaching</h3>
+      <p style="color:var(--text-dim);margin-bottom:14px">Edge TTS mit <span class="highlight hl-peach">de-DE-FlorianMultilingualNeural</span>. Sidecar spricht Nudges laut aus &mdash; du hoerst Coaching, ohne auf den Bildschirm schauen zu muessen.</p>
+      <ul>
+        <li><strong>TTS-Server</strong> &mdash; Systemd Service auf Port :5050. Health-Check bei Start, Auto-Restart wenn down.</li>
+        <li><strong>Was gesprochen wird</strong> &mdash; Fokus/ADHS-Nudges (sofort), Slow-Path-Ergebnisse (zusammengefasst), Commit-Digests, Feierabend-Summary.</li>
+        <li><strong>Cooldowns pro Typ</strong> &mdash; celebration: 30s, milestone/commit: 60s, info: 120s, narration: 120s, commit_digest: 240s, goal/scope_creep: 300s, coaching: 300s, paralysis: 600s, feierabend: 1800s</li>
+        <li><strong>Dedup</strong> &mdash; Ring-Buffer der letzten 10 gesprochenen Texte. Keine Wiederholungen.</li>
+        <li><strong>STT-Antworten</strong> &mdash; Whisper STT. Samuel kann auf gesprochene Nudges antworten (max 3 Runden Dialog).</li>
+        <li><strong>TTS Voting</strong> &mdash; Multi-dimensional: Content (1-3), Timing (1-3), Form (1-3) + dismiss_ms. Legacy-kompatibel mit +1/-1.</li>
+        <li><strong>Text-Aufbereitung</strong> &mdash; Backticks entfernt, Pfade gekuerzt, Abkuerzungen expandiert (PR&rarr;Pull Request, LOC&rarr;Lines of Code), Zahlen 0-12 als Woerter.</li>
+      </ul>
+      <div class="meta">samuel/florian.py &rarr; Edge TTS :5050 &rarr; paplay/pw-play/aplay | samuel/stt.py (Whisper)</div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Safety Gates -->
+  <div class="tab-content" id="tab-3">
+    <div class="tab-panel">
+      <h3><span class="icon">&#128721;</span> Safety Gates &mdash; Blockiert gefaehrliche Aktionen</h3>
+      <p style="color:var(--text-dim);margin-bottom:14px">PreToolUse Hook. Geprueft <strong>bevor</strong> ein Tool ausgefuehrt wird. Blockiert sofort &mdash; kein Cooldown, keine Bewertung.</p>
+
+      <details open>
+        <summary>Gefaehrliche Bash-Befehle</summary>
+        <div class="inner">
+          <ul>
+            <li><code style="font-family:var(--font-mono);color:var(--red)">rm -rf ~/</code> oder <code style="font-family:var(--font-mono);color:var(--red)">rm -rf .</code> &mdash; Loeschen von Home/Root/CWD</li>
+            <li><code style="font-family:var(--font-mono);color:var(--red)">git push --force</code> &mdash; Force Push</li>
+            <li><code style="font-family:var(--font-mono);color:var(--red)">git reset --hard</code> &mdash; Hard Reset</li>
+            <li><code style="font-family:var(--font-mono);color:var(--red)">DROP TABLE / DROP DATABASE</code> &mdash; SQL Drop</li>
+            <li><code style="font-family:var(--font-mono);color:var(--red)">chmod 777</code> &mdash; Unsichere Berechtigungen</li>
+            <li><code style="font-family:var(--font-mono);color:var(--red)">mkfs.*</code> &mdash; Dateisystem formatieren</li>
+            <li><code style="font-family:var(--font-mono);color:var(--red)">sudo / su</code> &mdash; Kein TTY in Claude Code</li>
+            <li><code style="font-family:var(--font-mono);color:var(--red)">> /dev/sd*</code> &mdash; Direktes Schreiben auf Block Devices</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Secret Exposure (Warnung)</summary>
+        <div class="inner">
+          <p>Bei Write/Edit: Warnt wenn API Keys, Passwörter oder Tokens im Code erscheinen. ANTHROPIC_API_KEY, MINIMAX_API_KEY, OPENAI_API_KEY, AWS_SECRET_ACCESS_KEY, password=, token=.</p>
+        </div>
+      </details>
+      <details>
+        <summary>WebSearch/WebFetch in SubAgents</summary>
+        <div class="inner">
+          <p>Blockiert WebSearch und WebFetch komplett &mdash; erzeugen Permission-Prompts die Samuel unterbrechen. Stattdessen: Gemini MCP als Background-Agent.</p>
+          <p>Prueft auch Agent-Prompts auf "websearch"/"webfetch" Keywords und blockiert diese.</p>
+        </div>
+      </details>
+      <div class="meta">Hook: PreToolUse &rarr; safety.py check_safety() + check_secret_exposure() &rarr; block/allow</div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Deep Analysis -->
+  <div class="tab-content" id="tab-4">
+    <div class="tab-panel">
+      <h3><span class="icon">&#129504;</span> Deep Analysis &mdash; MiniMax Slow Path</h3>
+      <p style="color:var(--text-dim);margin-bottom:14px">Periodische LLM-Bewertung deiner Arbeit durch MiniMax M2.5 mit sandboxed Function Calling.</p>
+      <ul>
+        <li><strong>4 Tools</strong> &mdash; <code style="font-family:var(--font-mono)">read_file</code>, <code style="font-family:var(--font-mono)">list_dir</code>, <code style="font-family:var(--font-mono)">search_code</code>, <code style="font-family:var(--font-mono)">write_protocol</code> (sandboxed, read-only + Protokoll)</li>
+        <li><strong>Adaptives Intervall</strong> &mdash; 10min (clean), 5min (1+ Fehler), 3min (3+ Fehler)</li>
+        <li><strong>Event-Trigger</strong> &mdash; Error-Burst, Phase-Change, Stuck-Detection loesen sofortige Analyse aus</li>
+        <li><strong>Budget</strong> &mdash; $0.50/Tag, ~$0.0003/Analyse. BudgetTracker verhindert Ueberschreitung.</li>
+        <li><strong>Ergebnis-Pipeline</strong> &mdash; Analyse-Ergebnis wird auf den naechsten Prompt geprepended + optional von Florian vorgelesen.</li>
+        <li><strong>Coaching Rules</strong> &mdash; MiniMax kennt Samuels Regeln aus <code style="font-family:var(--font-mono)">coaching_rules.txt</code>: Research First, Delegation, CLI First, Intent First, Session-Hygiene.</li>
+      </ul>
+      <div class="meta">samuel/harness.py &rarr; MiniMax M2.5 Agent Loop &rarr; Function Calling &rarr; write_protocol &rarr; next prompt</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SEKTION 3: 48 Mechanismen -->
+<!-- ============================================================ -->
+<section class="anim" style="--i:7">
+  <div class="section-label">Sektion 3</div>
+  <h2 class="section-title">48 Mechanismen &mdash; dein Coaching-Team</h2>
+  <p class="section-desc">Jeder Mechanismus erkennt ein Muster und reagiert darauf. Filtere nach Kategorie.</p>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterMechs('all')">Alle (48)</button>
+    <button class="filter-btn" onclick="filterMechs('focus')"><span class="cat-dot cat-focus"></span>Fokus (7)</button>
+    <button class="filter-btn" onclick="filterMechs('learning')"><span class="cat-dot cat-learning"></span>Lernen (6)</button>
+    <button class="filter-btn" onclick="filterMechs('project')"><span class="cat-dot cat-project"></span>Projekt (5)</button>
+    <button class="filter-btn" onclick="filterMechs('dopamine')"><span class="cat-dot cat-dopamine"></span>Dopamin (5)</button>
+    <button class="filter-btn" onclick="filterMechs('awareness')"><span class="cat-dot cat-awareness"></span>Awareness (5)</button>
+    <button class="filter-btn" onclick="filterMechs('quality')"><span class="cat-dot cat-quality"></span>Qualitaet (10)</button>
+    <button class="filter-btn" onclick="filterMechs('adhs')"><span class="cat-dot cat-adhs"></span>ADHS (6)</button>
+  </div>
+  <div class="mech-count" id="mech-count">48 Mechanismen</div>
+
+  <div class="mech-grid" id="mech-grid">
+    <!-- Fokus & Session 1-7 -->
+    <div class="mech-chip" data-cat="focus"><div class="mech-head"><span class="mech-id">#1</span><span class="mech-name">goal_enforcement</span></div><div class="mech-desc">Session-Ziele setzen und erinnern</div><div class="mech-meta"><span class="cat-dot cat-focus"></span>Fokus &middot; CD 15min</div></div>
+    <div class="mech-chip" data-cat="focus"><div class="mech-head"><span class="mech-id">#2</span><span class="mech-name">session_timer</span></div><div class="mech-desc">90-Minuten Session-Limit</div><div class="mech-meta"><span class="cat-dot cat-focus"></span>Fokus &middot; CD 15min</div></div>
+    <div class="mech-chip" data-cat="focus"><div class="mech-head"><span class="mech-id">#3</span><span class="mech-name">break_reminder</span></div><div class="mech-desc">Pausen-Erinnerung nach langer Arbeit</div><div class="mech-meta"><span class="cat-dot cat-focus"></span>Fokus &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="focus"><div class="mech-head"><span class="mech-id">#4</span><span class="mech-name">scope_creep_detection</span></div><div class="mech-desc">Scope Creep erkennen bei Projektwechsel</div><div class="mech-meta"><span class="cat-dot cat-focus"></span>Fokus &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="focus"><div class="mech-head"><span class="mech-id">#5</span><span class="mech-name">context_switch_cost</span></div><div class="mech-desc">Kosten von Kontextwechseln aufzeigen</div><div class="mech-meta"><span class="cat-dot cat-focus"></span>Fokus &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="focus"><div class="mech-head"><span class="mech-id">#6</span><span class="mech-name">deep_work_protector</span></div><div class="mech-desc">Deep Work Phasen schuetzen</div><div class="mech-meta"><span class="cat-dot cat-focus"></span>Fokus &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="focus"><div class="mech-head"><span class="mech-id">#7</span><span class="mech-name">paralysis_breaker</span></div><div class="mech-desc">Paralysis nach 20 Min erkennen</div><div class="mech-meta"><span class="cat-dot cat-focus"></span>Fokus &middot; CD 5min</div></div>
+
+    <!-- Lernen & Wissen 8-13 -->
+    <div class="mech-chip" data-cat="learning"><div class="mech-head"><span class="mech-id">#8</span><span class="mech-name">skill_matrix_check</span></div><div class="mech-desc">Skill-Level bei neuen Konzepten pruefen (Angst-Themen!)</div><div class="mech-meta"><span class="cat-dot cat-learning"></span>Lernen &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="learning"><div class="mech-head"><span class="mech-id">#9</span><span class="mech-name">explain_check</span></div><div class="mech-desc">Erklaer-Check nach Vibe-Coding</div><div class="mech-meta"><span class="cat-dot cat-learning"></span>Lernen &middot; CD 30min</div></div>
+    <div class="mech-chip" data-cat="learning"><div class="mech-head"><span class="mech-id">#10</span><span class="mech-name">learning_path</span></div><div class="mech-desc">Lernpfad-Vorschlaege via MiniMax</div><div class="mech-meta"><span class="cat-dot cat-learning"></span>Lernen &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="learning"><div class="mech-head"><span class="mech-id">#11</span><span class="mech-name">micro_lesson</span></div><div class="mech-desc">Micro-Lessons bei Wissenluecken</div><div class="mech-meta"><span class="cat-dot cat-learning"></span>Lernen &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="learning"><div class="mech-head"><span class="mech-id">#12</span><span class="mech-name">pattern_recognition</span></div><div class="mech-desc">Wiederkehrende Muster erkennen</div><div class="mech-meta"><span class="cat-dot cat-learning"></span>Lernen &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="learning"><div class="mech-head"><span class="mech-id">#13</span><span class="mech-name">documentation_nudge</span></div><div class="mech-desc">Dokumentation nach Feature anregen</div><div class="mech-meta"><span class="cat-dot cat-learning"></span>Lernen &middot; CD 5min</div></div>
+
+    <!-- Projekt & Accountability 14-18 -->
+    <div class="mech-chip" data-cat="project"><div class="mech-head"><span class="mech-id">#14</span><span class="mech-name">milestone_tracker</span></div><div class="mech-desc">Projekt-Fortschritt tracken</div><div class="mech-meta"><span class="cat-dot cat-project"></span>Projekt &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="project"><div class="mech-head"><span class="mech-id">#15</span><span class="mech-name">commit_frequency</span></div><div class="mech-desc">Commit-Haeufigkeit ueberwachen</div><div class="mech-meta"><span class="cat-dot cat-project"></span>Projekt &middot; CD 10min</div></div>
+    <div class="mech-chip" data-cat="project"><div class="mech-head"><span class="mech-id">#16</span><span class="mech-name">test_coverage_nudge</span></div><div class="mech-desc">Tests nach Feature-Code anregen</div><div class="mech-meta"><span class="cat-dot cat-project"></span>Projekt &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="project"><div class="mech-head"><span class="mech-id">#17</span><span class="mech-name">pr_review_reminder</span></div><div class="mech-desc">PR Review Erinnerung</div><div class="mech-meta"><span class="cat-dot cat-project"></span>Projekt &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="project"><div class="mech-head"><span class="mech-id">#18</span><span class="mech-name">project_health_check</span></div><div class="mech-desc">Projekt-Gesundheits-Check</div><div class="mech-meta"><span class="cat-dot cat-project"></span>Projekt &middot; CD 5min</div></div>
+
+    <!-- Dopamin & Motivation 19-23 -->
+    <div class="mech-chip" data-cat="dopamine"><div class="mech-head"><span class="mech-id">#19</span><span class="mech-name">xp_award</span></div><div class="mech-desc">XP vergeben bei Erfolgen</div><div class="mech-meta"><span class="cat-dot cat-dopamine"></span>Dopamin &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="dopamine"><div class="mech-head"><span class="mech-id">#20</span><span class="mech-name">streak_tracker</span></div><div class="mech-desc">Streak-Counter fuer taegliche Arbeit</div><div class="mech-meta"><span class="cat-dot cat-dopamine"></span>Dopamin &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="dopamine"><div class="mech-head"><span class="mech-id">#21</span><span class="mech-name">small_win_celebration</span></div><div class="mech-desc">Kleine Erfolge feiern</div><div class="mech-meta"><span class="cat-dot cat-dopamine"></span>Dopamin &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="dopamine"><div class="mech-head"><span class="mech-id">#22</span><span class="mech-name">progress_visualization</span></div><div class="mech-desc">Fortschritt visuell darstellen</div><div class="mech-meta"><span class="cat-dot cat-dopamine"></span>Dopamin &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="dopamine"><div class="mech-head"><span class="mech-id">#23</span><span class="mech-name">challenge_mode</span></div><div class="mech-desc">Herausforderungen vorschlagen</div><div class="mech-meta"><span class="cat-dot cat-dopamine"></span>Dopamin &middot; CD 5min</div></div>
+
+    <!-- Awareness 24-28 -->
+    <div class="mech-chip" data-cat="awareness"><div class="mech-head"><span class="mech-id">#24</span><span class="mech-name">energy_level_check</span></div><div class="mech-desc">Energie-Level abfragen</div><div class="mech-meta"><span class="cat-dot cat-awareness"></span>Awareness &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="awareness"><div class="mech-head"><span class="mech-id">#25</span><span class="mech-name">peak_time_optimizer</span></div><div class="mech-desc">Peak-Zeit optimal nutzen</div><div class="mech-meta"><span class="cat-dot cat-awareness"></span>Awareness &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="awareness"><div class="mech-head"><span class="mech-id">#26</span><span class="mech-name">mood_tracker</span></div><div class="mech-desc">Stimmung tracken</div><div class="mech-meta"><span class="cat-dot cat-awareness"></span>Awareness &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="awareness"><div class="mech-head"><span class="mech-id">#27</span><span class="mech-name">reflection_prompt</span></div><div class="mech-desc">Reflexions-Fragen stellen</div><div class="mech-meta"><span class="cat-dot cat-awareness"></span>Awareness &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="awareness"><div class="mech-head"><span class="mech-id">#28</span><span class="mech-name">burnout_detector</span></div><div class="mech-desc">Burnout-Anzeichen erkennen</div><div class="mech-meta"><span class="cat-dot cat-awareness"></span>Awareness &middot; CD 5min</div></div>
+
+    <!-- Qualitaet 29-32 -->
+    <div class="mech-chip" data-cat="quality"><div class="mech-head"><span class="mech-id">#29</span><span class="mech-name">safety_gate</span></div><div class="mech-desc">Gefaehrliche Befehle blockieren (str-only, kein MechanismResult)</div><div class="mech-meta"><span class="cat-dot cat-quality"></span>Qualitaet &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="quality"><div class="mech-head"><span class="mech-id">#30</span><span class="mech-name">code_review_nudge</span></div><div class="mech-desc">Code Review nach grossem Feature</div><div class="mech-meta"><span class="cat-dot cat-quality"></span>Qualitaet &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="quality"><div class="mech-head"><span class="mech-id">#31</span><span class="mech-name">refactor_detector</span></div><div class="mech-desc">Refactoring-Bedarf erkennen</div><div class="mech-meta"><span class="cat-dot cat-quality"></span>Qualitaet &middot; CD 5min</div></div>
+    <div class="mech-chip" data-cat="quality"><div class="mech-head"><span class="mech-id">#32</span><span class="mech-name">dependency_check</span></div><div class="mech-desc">Dependency-Updates pruefen</div><div class="mech-meta"><span class="cat-dot cat-quality"></span>Qualitaet &middot; CD 5min</div></div>
+
+    <!-- ADHS 33-36 -->
+    <div class="mech-chip" data-cat="adhs"><div class="mech-head"><span class="mech-id">#33</span><span class="mech-name">hyperfocus_guard</span></div><div class="mech-desc">Hyperfokus nach 4h unterbrechen</div><div class="mech-meta"><span class="cat-dot cat-adhs"></span>ADHS &middot; CD 30min</div></div>
+    <div class="mech-chip" data-cat="focus"><div class="mech-head"><span class="mech-id">#34</span><span class="mech-name">direction_check</span></div><div class="mech-desc">Richtungs-Check nach 15 Min ohne Fortschritt</div><div class="mech-meta"><span class="cat-dot cat-focus"></span>Fokus &middot; CD 15min</div></div>
+    <div class="mech-chip" data-cat="focus"><div class="mech-head"><span class="mech-id">#35</span><span class="mech-name">decision_support</span></div><div class="mech-desc">Entscheidungs-Hilfe bei A/B-Fragen</div><div class="mech-meta"><span class="cat-dot cat-focus"></span>Fokus &middot; CD 10min</div></div>
+    <div class="mech-chip" data-cat="learning"><div class="mech-head"><span class="mech-id">#36</span><span class="mech-name">depth_check</span></div><div class="mech-desc">Edge-Case Check alle 20 Edits</div><div class="mech-meta"><span class="cat-dot cat-learning"></span>Lernen &middot; CD 20min</div></div>
+
+    <!-- ADHS Live-Patterns 37-40 -->
+    <div class="mech-chip" data-cat="adhs"><div class="mech-head"><span class="mech-id">#37</span><span class="mech-name">big_bang_guard</span></div><div class="mech-desc">Warnung bei &gt;15 Edits ohne Test-Run</div><div class="mech-meta"><span class="cat-dot cat-adhs"></span>ADHS &middot; CD 10min</div></div>
+    <div class="mech-chip" data-cat="adhs"><div class="mech-head"><span class="mech-id">#38</span><span class="mech-name">review_requires_test</span></div><div class="mech-desc">Review ohne vorherigen Test erkennen</div><div class="mech-meta"><span class="cat-dot cat-adhs"></span>ADHS &middot; CD 15min</div></div>
+    <div class="mech-chip" data-cat="adhs"><div class="mech-head"><span class="mech-id">#39</span><span class="mech-name">bug_first</span></div><div class="mech-desc">Feature-Creep bei offenen Bugs erkennen</div><div class="mech-meta"><span class="cat-dot cat-adhs"></span>ADHS &middot; CD 10min</div></div>
+    <div class="mech-chip" data-cat="adhs"><div class="mech-head"><span class="mech-id">#40</span><span class="mech-name">zombie_bug_detector</span></div><div class="mech-desc">Wiederkehrende Bugs ueber Sessions erkennen</div><div class="mech-meta"><span class="cat-dot cat-adhs"></span>ADHS &middot; CD 30min</div></div>
+
+    <!-- Planning & Drift 41 -->
+    <div class="mech-chip" data-cat="focus"><div class="mech-head"><span class="mech-id">#41</span><span class="mech-name">planning_drift_detector</span></div><div class="mech-desc">Erkennt wenn Agents ohne Richtung arbeiten</div><div class="mech-meta"><span class="cat-dot cat-focus"></span>Fokus &middot; CD 15min</div></div>
+
+    <!-- Phase Contracts 42 -->
+    <div class="mech-chip" data-cat="quality"><div class="mech-head"><span class="mech-id">#42</span><span class="mech-name">contract_compliance</span></div><div class="mech-desc">Prueft ob Phase-Contract-Obligations erfuellt werden</div><div class="mech-meta"><span class="cat-dot cat-quality"></span>Qualitaet &middot; CD 10min</div></div>
+
+    <!-- Workflow 43-48 (Grosse-Fehler-Analyse) -->
+    <div class="mech-chip" data-cat="quality"><div class="mech-head"><span class="mech-id">#43</span><span class="mech-name">new_repo_guard</span></div><div class="mech-desc">Warnung bei neuem Repo ohne Analyse</div><div class="mech-meta"><span class="cat-dot cat-quality"></span>Qualitaet &middot; CD 30min</div></div>
+    <div class="mech-chip" data-cat="quality"><div class="mech-head"><span class="mech-id">#44</span><span class="mech-name">skeleton_first</span></div><div class="mech-desc">Kein Test-Skeleton bei &gt;5 Edits</div><div class="mech-meta"><span class="cat-dot cat-quality"></span>Qualitaet &middot; CD 10min</div></div>
+    <div class="mech-chip" data-cat="quality"><div class="mech-head"><span class="mech-id">#45</span><span class="mech-name">wiring_check</span></div><div class="mech-desc">Neues Feature gewired aber nicht getestet</div><div class="mech-meta"><span class="cat-dot cat-quality"></span>Qualitaet &middot; CD 15min</div></div>
+    <div class="mech-chip" data-cat="quality"><div class="mech-head"><span class="mech-id">#46</span><span class="mech-name">threshold_math</span></div><div class="mech-desc">Schwellwert-Aenderung ohne Erreichbarkeits-Check</div><div class="mech-meta"><span class="cat-dot cat-quality"></span>Qualitaet &middot; CD 15min</div></div>
+    <div class="mech-chip" data-cat="adhs"><div class="mech-head"><span class="mech-id">#47</span><span class="mech-name">version_squared</span></div><div class="mech-desc">V(N+1) ohne V(N) Learnings</div><div class="mech-meta"><span class="cat-dot cat-adhs"></span>ADHS &middot; CD 60min</div></div>
+    <div class="mech-chip" data-cat="adhs"><div class="mech-head"><span class="mech-id">#48</span><span class="mech-name">usage_proof</span></div><div class="mech-desc">Grosses Feature ohne Nutzungsnachweis</div><div class="mech-meta"><span class="cat-dot cat-adhs"></span>ADHS &middot; CD 30min</div></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SEKTION 4: Samuel kennen lernen (Personalisierung) -->
+<!-- ============================================================ -->
+<section class="anim" style="--i:8">
+  <div class="section-label">Sektion 4</div>
+  <h2 class="section-title">Samuel kennen lernen</h2>
+  <p class="section-desc">Sidecar kennt dich &mdash; Rhythmus, Skills, Aengste, Projekte. Alles aus <code style="font-family:var(--font-mono);color:var(--accent)">samuel.toml</code> und der Digital Twin DB.</p>
+
+  <div class="profile-grid">
+    <!-- Rhythmus -->
+    <div class="card">
+      <h3>Rhythmus &amp; ADHS</h3>
+      <ul>
+        <li><span>Aufstehen</span><span class="skill-level sl-basics">11:00</span></li>
+        <li><span>Peak-Zeit</span><span class="skill-level sl-kann-bauen">13:00 &ndash; 17:00</span></li>
+        <li><span>Second Wave</span><span class="skill-level sl-kann-nutzen">18:00 &ndash; 20:00</span></li>
+        <li><span>Max Session</span><span class="skill-level sl-basics">90 min</span></li>
+        <li><span>Hyperfocus-Limit</span><span class="skill-level sl-angst">4h</span></li>
+        <li><span>Paralysis-Timeout</span><span class="skill-level sl-angst">20 min</span></li>
+        <li><span>Max Goals/Session</span><span class="skill-level sl-basics">2</span></li>
+        <li><span>Medikation</span><span class="skill-level sl-basics">Methylphenidat 10mg</span></li>
+      </ul>
+    </div>
+
+    <!-- Skills -->
+    <div class="card">
+      <h3>Skill-Matrix</h3>
+      <ul>
+        <li><span>Sockets / asyncio / Plugin-System</span><span class="skill-level sl-kann-bauen">kann-bauen</span></li>
+        <li><span>FastAPI / Prompt Engineering</span><span class="skill-level sl-kann-bauen">kann-bauen</span></li>
+        <li><span>Agent Design / Multi-Model</span><span class="skill-level sl-kann-bauen">kann-bauen</span></li>
+        <li><span>Context Engineering</span><span class="skill-level sl-kann-bauen">kann-bauen</span></li>
+        <li><span>Token Economics / Guardrails</span><span class="skill-level sl-kann-nutzen">kann-nutzen</span></li>
+        <li><span>Git / Testing / Caching</span><span class="skill-level sl-basics">basics</span></li>
+        <li><span>Cost Optimization</span><span class="skill-level sl-basics">basics</span></li>
+        <li><span>Databases / Deployment</span><span class="skill-level sl-angst">Angst</span></li>
+        <li><span>Fine-Tuning / MLOps</span><span class="skill-level sl-angst">Angst</span></li>
+        <li><span>RAG / Embeddings / Evals</span><span class="skill-level sl-keine">keine</span></li>
+      </ul>
+    </div>
+
+    <!-- Fear Map -->
+    <div class="card fear-card">
+      <h4>Fear Map &mdash; 4 Angst-Themen</h4>
+      <p style="font-size:0.88rem;color:var(--text-dim);margin-bottom:10px">Sidecar erkennt wenn du in einem Angst-Bereich arbeitest und bietet Micro-Offers an &mdash; keine Belehrung, sondern kleine Schritte.</p>
+      <ul style="list-style:none;padding:0">
+        <li style="padding:6px 0;border-bottom:1px solid rgba(243,139,168,0.1)"><strong>databases</strong> &mdash; SQL, Schema-Design, Migrations. Micro-Offer: "Ein SELECT reicht fuer heute."</li>
+        <li style="padding:6px 0;border-bottom:1px solid rgba(243,139,168,0.1)"><strong>deployment</strong> &mdash; Server, Docker, CI/CD. Micro-Offer: "Nur ein systemd Service. Kein K8s."</li>
+        <li style="padding:6px 0;border-bottom:1px solid rgba(243,139,168,0.1)"><strong>fine-tuning</strong> &mdash; Model Training, Datasets. Micro-Offer: "Erstmal nur API-Call testen."</li>
+        <li style="padding:6px 0"><strong>mlops</strong> &mdash; Pipelines, Monitoring, A/B-Tests. Micro-Offer: "Ein pytest reicht als Anfang."</li>
+      </ul>
+    </div>
+
+    <!-- Digital Twin -->
+    <div class="card">
+      <h3>Digital Twin (memory.db)</h3>
+      <p style="font-size:0.88rem;color:var(--text-dim);margin-bottom:10px">SQLite-Datenbank unter <code style="font-family:var(--font-mono);color:var(--accent)">~/.ubw/memory.db</code>. Shared mit V6.</p>
+      <ul style="list-style:none;padding:0">
+        <li style="padding:5px 0"><strong>observations</strong> &mdash; Tool-Events, Phase-Wechsel, Session-Metriken</li>
+        <li style="padding:5px 0"><strong>insights</strong> &mdash; Synthetisierte Erkenntnisse (5 Detektoren: repeated_error, phase_mismatch, time_patterns, skill_signals, session_quality)</li>
+        <li style="padding:5px 0"><strong>fear_log</strong> &mdash; Wann welches Angst-Thema getriggert wurde</li>
+        <li style="padding:5px 0"><strong>tts_ratings</strong> &mdash; Multi-dim Bewertungen (content/timing/form/dismiss_ms)</li>
+        <li style="padding:5px 0"><strong>knowledge</strong> &mdash; Explizite Fakten, Regeln, Hypothesen, Open Loops</li>
+        <li style="padding:5px 0"><strong>dynamic_memory</strong> &mdash; Automatisch synthetisiert, in Context Bridge injiziert</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Projekte -->
+  <div style="margin-top:24px">
+    <h3 style="font-size:1.05rem;margin-bottom:12px">Projekt-Tracking</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
+      <div class="card" style="padding:14px">
+        <div style="font-weight:600;font-size:0.9rem">Sidecar V7</div>
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--text-dim)"><span>3/10 Milestones</span><span class="highlight hl-green">active</span></div>
+        <div style="height:4px;background:var(--surface1);border-radius:2px;margin-top:6px"><div style="height:100%;width:30%;background:var(--green);border-radius:2px"></div></div>
+      </div>
+      <div class="card" style="padding:14px">
+        <div style="font-weight:600;font-size:0.9rem">Sidecar V6</div>
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--text-dim)"><span>10/10 Milestones</span><span class="highlight hl-blue">done</span></div>
+        <div style="height:4px;background:var(--surface1);border-radius:2px;margin-top:6px"><div style="height:100%;width:100%;background:var(--blue);border-radius:2px"></div></div>
+      </div>
+      <div class="card" style="padding:14px">
+        <div style="font-weight:600;font-size:0.9rem">FireTracker</div>
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--text-dim)"><span>1/7 Milestones</span><span class="highlight hl-yellow">paused</span></div>
+        <div style="height:4px;background:var(--surface1);border-radius:2px;margin-top:6px"><div style="height:100%;width:14%;background:var(--yellow);border-radius:2px"></div></div>
+      </div>
+      <div class="card" style="padding:14px">
+        <div style="font-weight:600;font-size:0.9rem">StudyAgent</div>
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--text-dim)"><span>1/5 Milestones</span><span class="highlight hl-yellow">paused</span></div>
+        <div style="height:4px;background:var(--surface1);border-radius:2px;margin-top:6px"><div style="height:100%;width:20%;background:var(--yellow);border-radius:2px"></div></div>
+      </div>
+      <div class="card" style="padding:14px">
+        <div style="font-weight:600;font-size:0.9rem">TypoTuner</div>
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--text-dim)"><span>1/5 Milestones</span><span class="highlight hl-blue">done</span></div>
+        <div style="height:4px;background:var(--surface1);border-radius:2px;margin-top:6px"><div style="height:100%;width:20%;background:var(--blue);border-radius:2px"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SEKTION 5: Sidecar lernt mit dir (Self-Tuning) -->
+<!-- ============================================================ -->
+<section class="anim" style="--i:9">
+  <div class="section-label">Sektion 5</div>
+  <h2 class="section-title">Sidecar lernt mit dir</h2>
+  <p class="section-desc">Das System tuned sich selbst. Gute Nudges feuern oefter, schlechte seltener, tote werden deaktiviert.</p>
+
+  <div class="tuning-grid">
+    <div class="card">
+      <h4>EWMA Ratings</h4>
+      <p>Jeder Mechanismus hat eine gewichtete Bewertung. <code style="font-family:var(--font-mono);color:var(--peach)">alpha=0.3</code> &mdash; 30% neues Signal, 70% Historie.</p>
+      <p style="margin-top:8px">Startwert: 3.0 (neutral). Erster Wert wird direkt uebernommen, danach gewichtet.</p>
+    </div>
+    <div class="card">
+      <h4>Auto-Rating Signale</h4>
+      <ul style="list-style:none;padding:0">
+        <li style="padding:4px 0"><span class="highlight hl-green">+0.5</span> Commit nach Nudge</li>
+        <li style="padding:4px 0"><span class="highlight hl-red">-0.5</span> Fehler-Burst nach Nudge</li>
+        <li style="padding:4px 0"><span class="highlight hl-blue">+1/-1</span> Manuelles TTS-Voting</li>
+        <li style="padding:4px 0"><span class="highlight hl-mauve">Multi-dim</span> Content + Timing + Form + Dismiss-Speed</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>AdaptationEngine (alle 30min)</h4>
+      <p style="font-size:0.88rem;color:var(--text-dim)">Weighted Score = 0.4 &times; success_rate + 0.3 &times; trend + 0.3 &times; context_match</p>
+      <ul style="list-style:none;padding:0;margin-top:8px">
+        <li style="padding:4px 0"><span class="highlight hl-green">Score &gt; 0.8</span> Cooldown halbiert &mdash; "Top Performer"</li>
+        <li style="padding:4px 0"><span class="highlight hl-blue">0.3 &ndash; 0.8</span> Keine Aenderung &mdash; "Normal"</li>
+        <li style="padding:4px 0"><span class="highlight hl-yellow">Score &lt; 0.3</span> Cooldown verdoppelt &mdash; "Underperformer"</li>
+        <li style="padding:4px 0"><span class="highlight hl-red">Score &lt; 0.15</span> Deaktiviert &mdash; "Remove"</li>
+        <li style="padding:4px 0"><span class="highlight hl-peach">48h ohne Fire</span> Dormant auto-disable</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Spaced Repetition</h4>
+      <p style="font-size:0.88rem;color:var(--text-dim)">Ebbinghaus-Intervalle fuer gelernte Konzepte: <code style="font-family:var(--font-mono)">1d &rarr; 3d &rarr; 7d &rarr; 14d &rarr; 30d</code></p>
+      <ul style="list-style:none;padding:0;margin-top:8px">
+        <li style="padding:4px 0"><strong>Gap Detection</strong> &mdash; Gleicher Fehler 3+ mal = Knowledge Gap</li>
+        <li style="padding:4px 0"><strong>Max 2 Reviews/Session</strong> &mdash; Nicht ueberfluten</li>
+        <li style="padding:4px 0"><strong>Persist</strong> &mdash; JSON unter /tmp/sidecar-v7-learner.json</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SEKTION 6: So steuerst du Sidecar -->
+<!-- ============================================================ -->
+<section class="anim" style="--i:10">
+  <div class="section-label">Sektion 6</div>
+  <h2 class="section-title">So steuerst du Sidecar</h2>
+  <p class="section-desc">CLI, Dashboard und GTK Panel &mdash; drei Wege Sidecar zu kontrollieren.</p>
+
+  <h3 style="font-size:1.05rem;margin-bottom:14px">sidecar-v7-ctl</h3>
+  <div class="cli-grid">
+    <div class="cli-cmd"><code>sidecar-v7-ctl status</code><span>Session-Info, Phase, Prompts, Errors, Extensions</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl ranking</code><span>Alle 48 Mechanismen nach EWMA-Rating sortiert</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl vote &lt;id&gt; +/-</code><span>Mechanismus bewerten (thumbs up/down)</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl sessions</code><span>Alle getrackten Sessions auflisten</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl watch &lt;sid&gt;</code><span>Aktive Session wechseln</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl dashboard</code><span>Dashboard im Browser oeffnen (:5112)</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl feierabend</code><span>Florian spricht Feierabend-Summary (2-5 min)</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl proposals</code><span>Sidecar-Vorschlaege anzeigen + Lifecycle</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl knowledge add</code><span>Manuell Wissens-Objekt hinzufuegen</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl purge --days 90</code><span>Alte Memory-Rows aufraumen (dry-run moeglich)</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl skills</code><span>Skill-Matrix aus samuel.toml</span></div>
+    <div class="cli-cmd"><code>sidecar-v7-ctl ping</code><span>Daemon Health-Check (pong?)</span></div>
+  </div>
+
+  <div style="margin-top:32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+    <div class="card">
+      <h3>Dashboard (:5112)</h3>
+      <p>FastAPI + htmx + Tailwind. Live-Ansicht von:</p>
+      <ul style="list-style:none;padding:0;margin-top:8px">
+        <li style="padding:3px 0">&bull; Mechanismus-Ranking mit EWMA-Scores</li>
+        <li style="padding:3px 0">&bull; Session-Stats (Prompts, Errors, Phase)</li>
+        <li style="padding:3px 0">&bull; TTS-Log (Florian Spoken History)</li>
+        <li style="padding:3px 0">&bull; Alignment-Digest (Bookmarks, Projects, Gaps)</li>
+        <li style="padding:3px 0">&bull; Memory Explorer (Twin DB Eintraege)</li>
+        <li style="padding:3px 0">&bull; Explainer-History (alle generierten Erklaerungen)</li>
+        <li style="padding:3px 0">&bull; XP &amp; Streak-Tracker</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>GTK3 Panel</h3>
+      <p>Kompaktes Desktop-Widget. Zeigt:</p>
+      <ul style="list-style:none;padding:0;margin-top:8px">
+        <li style="padding:3px 0">&bull; Aktuelle Phase + Workflow</li>
+        <li style="padding:3px 0">&bull; Letzte Nudge mit Rating-Widget (Emoji-Grid)</li>
+        <li style="padding:3px 0">&bull; TTS-Stop bei Downvote</li>
+        <li style="padding:3px 0">&bull; Bubble-Dismiss fuer unerwuenschte Popups</li>
+        <li style="padding:3px 0">&bull; Singleton PID (nur eine Instanz)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Systemd Service</h3>
+      <p>User-Level Service:</p>
+      <ul style="list-style:none;padding:0;margin-top:8px">
+        <li style="padding:3px 0"><code style="font-family:var(--font-mono);font-size:0.82rem;color:var(--green)">systemctl --user start sidecar-v7</code></li>
+        <li style="padding:3px 0"><code style="font-family:var(--font-mono);font-size:0.82rem;color:var(--green)">journalctl --user -u sidecar-v7 -f</code></li>
+        <li style="padding:3px 0">Auto-Restart, WatchdogSec, Socket-Cleanup</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Sidecar V7 &middot; ~11K LOC &middot; core/ (MIT) + samuel/ (privat) &middot; Socket /tmp/sidecar-v7.sock &middot; Dashboard :5112 &middot; TTS :5050
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+// Tab switching for the 5 intervention paths
+function showTab(idx) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.flow-out').forEach(el => el.classList.remove('active'));
+  const tab = document.getElementById('tab-' + idx);
+  const btn = document.getElementById('ftab-' + idx);
+  if (tab) tab.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// Mechanism filter
+function filterMechs(cat) {
+  const chips = document.querySelectorAll('.mech-chip');
+  let count = 0;
+  chips.forEach(chip => {
+    if (cat === 'all' || chip.dataset.cat === cat) {
+      chip.style.display = '';
+      count++;
+    } else {
+      chip.style.display = 'none';
+    }
+  });
+  document.getElementById('mech-count').textContent = count + ' Mechanismen';
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.includes(
+      cat === 'all' ? 'Alle' :
+      cat === 'focus' ? 'Fokus' :
+      cat === 'learning' ? 'Lernen' :
+      cat === 'project' ? 'Projekt' :
+      cat === 'dopamine' ? 'Dopamin' :
+      cat === 'awareness' ? 'Awareness' :
+      cat === 'quality' ? 'Qualitaet' :
+      cat === 'adhs' ? 'ADHS' : ''
+    ));
+  });
+}
+
+// Scroll-triggered fadeUp (IntersectionObserver)
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.animationPlayState = 'running';
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.anim').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  obs.observe(el);
+});
+</script>
+
+</body>
+</html>
