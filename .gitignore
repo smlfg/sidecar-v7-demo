@@ -1,0 +1,7 @@
+# Private personalisation data - never publish
+user.toml
+user/
+*.db
+*.sqlite
+*.sqlite3
+.local/
